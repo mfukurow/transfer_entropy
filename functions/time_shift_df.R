@@ -36,7 +36,7 @@ time_shift_df <- function(df, tau) {
   tsdf <- matrix(numeric(n_col_tsdf * n_row_tsdf), ncol = n_col_tsdf)
   for (ii in 1:n_col) {
     for (jj in 0:tau) {
-      tsdf[, (ii - 1) * (tau + 1) + jj + 1] <- df[(jj + 1):(n_row - tau + jj), ii]
+      tsdf[, (ii - 1) * (tau + 1) + jj + 1] <- df[(tau - jj + 1):(n_row - jj), ii]
     }
   }
   
