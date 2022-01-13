@@ -94,10 +94,7 @@ multi_histcount <- function(df, list_breaks, comb_list_out = FALSE) {
   
   # 4. output
   if (comb_list_out == TRUE) {
-    list_counts <- list()
-    list_counts$counts <- counts
-    list_counts$comb_low_mat <- comb_low_mat
-    list_counts$comb_high_mat <- comb_high_mat
+    list_counts <- list(counts, comb_low_mat, comb_high_mat)
     return(list_counts)
   } else {
     return(counts)  
