@@ -2,7 +2,7 @@
 ##-------------------------------------------------------------------------
 ##
 ##  entropy_H.R
-##    calculates shannon's joint entropy of multiple variables
+##    calculates shannon's entropy
 ##
 ##  Author        : Matasaburo Fukutomi
 ##  First publish : 01.11.2021
