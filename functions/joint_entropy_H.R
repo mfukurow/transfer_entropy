@@ -26,6 +26,13 @@
 joint_entropy_H <- function(df, list_breaks) {
   
   # 1. count multi-dimensional histogram
+  
+  # if df is a vector, make it as a data frame
+  if (is.vector(df)) {
+    df <- data.frame(df)
+    names(df) <- names(list_breaks)
+  }
+  
   counts <- multi_histcount(df, list_breaks)
   prob <- counts / sum(counts)
   
