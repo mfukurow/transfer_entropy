@@ -9,7 +9,7 @@
 ##  Last update   : 01.13.2021
 ##
 ##  Usage
-##    TE <- transfer_entropy(df, tau, breaks_list)
+##    TE <- transfer_entropy(df, tau, list_breaks)
 ##
 ##  Variables
 ##    inputs
