@@ -27,6 +27,7 @@
 # Function ---------------------------------------------------------------
 
 transfer_entropy <- function(df, tau, list_breaks) {
+  
   # 1. make a time-shifted data frame
   tsdf <- time_shift_df(df, tau)
   list_breaks <- rep(list_breaks, each = tau + 1)
@@ -42,4 +43,5 @@ transfer_entropy <- function(df, tau, list_breaks) {
                     list_breaks[Vnames[c(2:(tau + 1), (tau + 3):(2 * (tau + 1)))]])
   
   return(TE)
+  
 }
