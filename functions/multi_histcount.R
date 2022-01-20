@@ -31,10 +31,10 @@ multi_histcount <- function(df, list_breaks) {
   # function symbolizing data separated by bins
   hist_symbol <- function(x, breaks) {
     n_breaks <- length(breaks)
-    symbols <- formatC(0:n_breaks, width = ceiling(log10(n_breaks)), flag = "0")
+    symbols <- formatC(1:n_breaks, width = ceiling(log10(n_breaks)), flag = "0")
     rlt <- rep(symbols[1], length(x))
     for (ii in 1:n_breaks) {
-      rlt[x >= breaks[ii]] <- symbols[ii + 1]
+      rlt[x > breaks[ii]] <- symbols[ii]
     }
     return(rlt)
   }
@@ -46,9 +46,9 @@ multi_histcount <- function(df, list_breaks) {
   # 2. symbolize all combination
   for (ii in 1:n_Vnames) {
     if (ii == 1) {
-      symbols <- hist_symbol(df[Vnames[ii]], list_breaks[[Vnames[ii]]])
+      symbols <- hist_symbol(df[[Vnames[ii]]], list_breaks[[Vnames[ii]]])
     } else {
-      symbols <- paste0(symbols, hist_symbol(df[Vnames[ii]], list_breaks[[Vnames[ii]]]))
+      symbols <- paste0(symbols, hist_symbol(df[[Vnames[ii]]], list_breaks[[Vnames[ii]]]))
     }
   }
   
