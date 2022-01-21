@@ -1,0 +1,64 @@
+---
+title: "Comparison with 'entropy' package"
+author: "Matasaburo Fukutomi"
+date: "1/20/2022"
+output: html_document
+---
+
+## Purpose  
+Compare my joint_entropy_H function with entropy function in 'entropy" package distributed in CRAN.
+
+## Load package
+``` {r}
+source("/Users/matasaburofukutomi/Documents/Rhome/transfer_entropy/functions/entropy_H.R")
+source("/Users/matasaburofukutomi/Documents/Rhome/transfer_entropy/functions/joint_entropy_H.R")
+source("/Users/matasaburofukutomi/Documents/Rhome/transfer_entropy/functions/multi_histcount.R")
+
+library(entropy)
+
+```
+
+## Preparation for data set
+``` {r}
+# number of trials
+ntrials <- 10000
+
+# bin size
+n_bin <- 10
+
+# sample from uniform distribution
+x1 <- runif(ntrials)
+x2 <- runif(ntrials)
+
+df <- data.frame(x1, x2)
+list_breaks <- list(
+  x1 = seq(min(x1), max(x1), length.out = n_bin + 1),
+  x2 = seq(min(x2), max(x2), length.out = n_bin + 1)
+)
+
+# display the histogram
+hist(x1, breaks = seq(min(x1), max(x1), length.out = n_bin + 1))
+hist(x2, breaks = seq(min(x2), max(x2), length.out = n_bin + 1))
+
+```
+
+## Calculate joint entropy with 'entropy' package
+``` {r}
+# make a 2 dimensional histogram
+y2d <- discretize2d(x1, x2, numBins1 = n_bin, numBins2 = n_bin)
+y2d
+
+# joint entropy
+entropy(y2d, unit = "log2")
+
+```
+
+## Calculate joint entropy with joint_entropy_H function
+``` {r}
+# make a 2 dimensional histogram (but expressed as a vector)
+multi_histcount(df, list_breaks)
+
+# joint entropy
+joint_entropy_H(df, list_breaks)
+
+```
