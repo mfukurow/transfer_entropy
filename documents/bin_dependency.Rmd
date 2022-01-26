@@ -1,0 +1,80 @@
+---
+title: "Relationship between bin selection and entropy"
+author: "Matasaburo Fukutomi"
+date: "1/21/2022"
+output: html_document
+---
+
+## Purpose
+Determine effects of bin selection ways on entropy
+
+## Load package
+``` {r}
+library(tidyverse)
+library(reshape2)
+source("/Users/matasaburofukutomi/Documents/Rhome/transfer_entropy/functions/entropy_H.R")
+source("/Users/matasaburofukutomi/Documents/Rhome/transfer_entropy/functions/joint_entropy_H.R")
+source("/Users/matasaburofukutomi/Documents/Rhome/transfer_entropy/functions/multi_histcount.R")
+
+```
+
+## Data generation
+``` {r}
+set.seed(12345)
+ntrials <- 10000
+normA <- rnorm(ntrials)
+unifA <- runif(ntrials)
+df <- data.frame(normal = normA, uniform = unifA)
+
+```
+
+## Distribution
+``` {r}
+plt_dist <- df %>% 
+  melt(id.vars = NULL) %>% 
+  ggplot(aes(x = value)) +
+  geom_histogram() +
+  facet_wrap(~variable, scales = "free") +
+  theme_bw()
+plt_dist
+
+```
+
+## Use quantile with 10 bins
+``` {r}
+# normal distribution
+joint_entropy_H(df, list(normal = quantile(normA, seq(0, 1, 0.1))))
+multi_histcount(df, list(normal = quantile(normA, seq(0, 1, 0.1))))
+
+# uniform distribution
+joint_entropy_H(df, list(uniform = quantile(unifA, seq(0, 1, 0.1))))
+multi_histcount(df, list(uniform = quantile(unifA, seq(0, 1, 0.1))))
+
+```
+Entropy calculated with quantile bins is independent from distribution shape.
+
+## Use linear 10 bins
+``` {r}
+# normal distribution
+joint_entropy_H(df, list(normal = seq(min(normA), max(normA), length.out = 11)))
+multi_histcount(df, list(normal = seq(min(normA), max(normA), length.out = 11)))
+
+# uniform distribution
+joint_entropy_H(df, list(uniform = seq(min(unifA), max(unifA), length.out = 11)))
+multi_histcount(df, list(uniform = seq(min(unifA), max(unifA), length.out = 11)))
+
+```
+
+## Relationship between bin size and entropy (for normal distribution)
+``` {r}
+bin_range <- 5:1000
+bin_rlt <- numeric(length(bin_range))
+
+for (ii in 1:length(bin_range)) {
+  bin_rlt[ii] <- joint_entropy_H(df, list(normal = seq(min(normA), max(normA), length.out = bin_range[ii] + 1)))
+}
+
+plot(bin_range, bin_rlt)
+
+```
+

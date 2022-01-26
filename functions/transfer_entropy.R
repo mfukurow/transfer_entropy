@@ -6,7 +6,7 @@
 ##
 ##  Author        : Matasaburo Fukutomi
 ##  First publish : 01.12.2021
-##  Last update   : 01.13.2021
+##  Last update   : 01.25.2021
 ##
 ##  Usage
 ##    TE <- transfer_entropy(df, tau, list_breaks)
@@ -35,12 +35,10 @@ transfer_entropy <- function(df, tau, list_breaks) {
   names(list_breaks) <- Vnames
   
   # 2. calculate transfer entropy
-  TE <- joint_entropy_H(tsdf[, 1:(tau + 1)], list_breaks[Vnames[1:(tau + 1)]]) -
-    joint_entropy_H(tsdf[, 2:(tau + 1)], list_breaks[Vnames[2:(tau + 1)]]) -
-    joint_entropy_H(tsdf[, c(1:(tau + 1), (tau + 3):(2 * (tau + 1)))], 
-                    list_breaks[Vnames[c(1:(tau + 1), (tau + 3):(2 * (tau + 1)))]]) +
-    joint_entropy_H(tsdf[, c(2:(tau + 1), (tau + 3):(2 * (tau + 1)))],
-                    list_breaks[Vnames[c(2:(tau + 1), (tau + 3):(2 * (tau + 1)))]])
+  TE <- joint_entropy_H(tsdf, list_breaks[Vnames[1:(tau + 1)]]) -
+    joint_entropy_H(tsdf, list_breaks[Vnames[2:(tau + 1)]]) -
+    joint_entropy_H(tsdf, list_breaks[Vnames[c(1:(tau + 1), (tau + 3):(2 * (tau + 1)))]]) +
+    joint_entropy_H(tsdf, list_breaks[Vnames[c(2:(tau + 1), (tau + 3):(2 * (tau + 1)))]])
   
   return(TE)
   
